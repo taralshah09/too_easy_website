@@ -1,0 +1,14 @@
+[
+    {
+        "img": "/src/assets/recent/recent-1.png",
+        "link": "https://yourcourse.com.au/"
+    },
+    {
+        "img": "/src/assets/recent/recent-2.png",
+        "link": "https://jdfc.vercel.app/"
+    },
+    {
+        "img": "/src/assets/recent/recent-3.png",
+        "link": "https://rtolearnerguides.com.au/"
+    }
+]

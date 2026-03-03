@@ -1,0 +1,32 @@
+[
+    {
+        "image": "/src/assets/why/why-1.png",
+        "title": "Affordable Pricing",
+        "description": "Professional websites from just $499."
+    },
+    {
+        "image": "/src/assets/why/why-2.png",
+        "title": "Quick Turnaround",
+        "description": "Get your website online in days, not weeks."
+    },
+    {
+        "image": "/src/assets/why/why-3.png",
+        "title": "Mobile-Friendly",
+        "description": "Responsive designs that look great on all devices."
+    },
+    {
+        "image": "/src/assets/why/why-4.png",
+        "title": "Custom Design",
+        "description": "Tailored websites to suit your business needs."
+    },
+    {
+        "image": "/src/assets/why/why-5.png",
+        "title": "SEO Optimized",
+        "description": "Websites built to help you rank on Google."
+    },
+    {
+        "image": "/src/assets/why/why-6.png",
+        "title": "Ongoing Support",
+        "description": "We're here to help you long after your site goes live."
+    }
+]
