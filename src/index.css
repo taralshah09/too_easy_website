@@ -257,7 +257,7 @@ header .header-right ul li:focus-visible {
 /* ===== HERO STYLES ===== */
 .hero {
   width: 100%;
-  background: url("./assets/hero-bg.png") center 100% / cover no-repeat;
+  background: url("./assets/hero-bg-new.png") center 100% / cover no-repeat;
   padding: 20px 5% 0px;
   position: relative;
   overflow: hidden;
