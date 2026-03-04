@@ -63,6 +63,8 @@ header {
   justify-content: space-between;
   background: var(--color-bg-gradient-start);
   position: relative;
+  color: var(--color-text-primary);
+
 }
 
 header .header-left {
@@ -100,7 +102,7 @@ header .header-right ul {
 
 header .header-right ul li {
   position: relative;
-  padding: 10px 15px;
+  padding: 10px 10px;
   font-weight: 500;
   cursor: pointer;
   transition: color 0.3s ease;
@@ -221,6 +223,12 @@ header .header-right ul li:focus-visible {
   color: var(--color-accent);
 }
 
+@media (max-width: 1200px) {
+  header {
+    padding: 12px 2%;
+  }
+}
+
 @media (max-width: 900px) {
 
   /* Hide desktop menu */
@@ -234,11 +242,11 @@ header .header-right ul li:focus-visible {
   }
 
   header .header-left h1 {
-    font-size: 22px;
+    font-size: 20px;
   }
 
   header .header-left h1 span {
-    font-size: 22px;
+    font-size: 20px;
   }
 
   header .header-left .logo {
@@ -249,50 +257,54 @@ header .header-right ul li:focus-visible {
 /* ===== HERO STYLES ===== */
 .hero {
   width: 100%;
-  background: url("./assets/hero-bg.png") center center / cover no-repeat;
-  padding: 60px 5% 80px;
+  background: url("./assets/hero-bg.png") center 100% / cover no-repeat;
+  padding: 20px 5% 0px;
   position: relative;
   overflow: hidden;
+  height: 82vh;
 }
 
 .hero-inner {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
+  margin-top: 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 40px;
+  gap: 24px;
+  height: 100%;
 }
 
 /* ---- Left column ---- */
 .hero-left {
-  flex: 0 0 42%;
+  flex: 0 0 38%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 22px;
 }
 
 .hero-heading {
-  font-size: clamp(28px, 3.5vw, 46px);
-  font-weight: 700;
+  font-size: clamp(28px, 3.2vw, 48px);
+  font-weight: 500;
   color: var(--color-text-primary);
   line-height: 1.2;
 }
 
 .hero-heading-accent {
+  font-weight: 700;
   color: var(--color-text-primary);
 }
 
 .hero-body {
-  font-size: clamp(14px, 1.2vw, 16px);
+  font-size: clamp(14px, 1.1vw, 16px);
   color: var(--color-text-body);
-  line-height: 1.7;
-  max-width: 380px;
+  line-height: 1.75;
+  max-width: 400px;
 }
 
 .hero-cta {
   display: inline-block;
-  padding: 14px 28px;
+  padding: 14px 40px;
   background: var(--color-accent);
   color: var(--color-white);
   font-weight: var(--font-weight-semibold);
@@ -312,28 +324,34 @@ header .header-right ul li:focus-visible {
 
 /* ---- Right column ---- */
 .hero-right {
-  flex: 0 0 52%;
+  flex: 0 0 57%;
   position: relative;
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  height: 100%;
 }
 
 .hero-vector {
   width: 100%;
-  max-width: 600px;
-  height: 600px;
+  max-width: 680px;
+  height: auto;
+  max-height: 100%;
   object-fit: contain;
+  object-position: bottom;
   display: block;
   position: relative;
   z-index: 1;
+  align-self: flex-end;
 }
 
 
 /* ---- Responsive ---- */
 @media (max-width: 860px) {
   .hero {
-    padding: 50px 5% 60px;
+    padding: 30px 5% 30px;
+    height: 110vh;
+    overflow: visible;
   }
 
   .hero-inner {
@@ -424,12 +442,16 @@ header .header-right ul li:focus-visible {
 
 .why-choose-heading {
   font-size: clamp(26px, 3vw, 40px);
-  font-weight: 500;
+  font-weight: 600;
   color: var(--color-text-primary);
   line-height: 1.25;
 }
 
-.why-choose-heading span {
+.why-choose-heading span:nth-child(1) {
+  font-weight: 400;
+}
+
+.why-choose-heading span:nth-child(2) {
   color: var(--color-accent);
 }
 
@@ -570,7 +592,7 @@ header .header-right ul li:focus-visible {
 
 .recent-work-heading {
   font-size: clamp(26px, 3vw, 40px);
-  font-weight: 700;
+  font-weight: 400;
   color: var(--color-text-primary);
 }
 

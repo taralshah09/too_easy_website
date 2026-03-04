@@ -6,7 +6,7 @@ export default function WhyChoose() {
             <div className="why-choose-inner">
                 <div className="why-choose-left">
                     <h2 className="why-choose-heading">
-                        Why Choose Too<span>Easy</span>Websites?
+                        <span>Why Choose</span> Too<span>Easy</span>Websites?
                     </h2>
                     <p className="why-choose-body">
                         We make getting a website for your small business easy and affordable. Here's why you should choose us:

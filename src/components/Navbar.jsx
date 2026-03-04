@@ -18,7 +18,7 @@ export default function Navbar() {
         <nav className="header-right">
           <ul>
             <li>Home</li>
-            <li>About</li>
+            <li>About Us</li>
             <li>Our Services</li>
             <li>Portfolio</li>
             <li>Contact Us</li>
@@ -40,7 +40,7 @@ export default function Navbar() {
       <div className={`mobile-menu ${isOpen ? "show" : ""}`}>
         <ul>
           <li>Home</li>
-          <li>About</li>
+          <li>About Us</li>
           <li>Our Services</li>
           <li>Portfolio</li>
           <li>Contact Us</li>
