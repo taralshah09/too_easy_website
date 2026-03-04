@@ -1,4 +1,4 @@
-import heroVector from "../assets/hero-vec-with-shadow.png";
+import heroVector from "../assets/hero-vec-with-shadow-new.png";
 
 export default function Hero() {
     return (

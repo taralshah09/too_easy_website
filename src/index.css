@@ -262,6 +262,7 @@ header .header-right ul li:focus-visible {
   position: relative;
   overflow: hidden;
   height: 82vh;
+  min-height: 560px;
 }
 
 .hero-inner {
@@ -348,40 +349,67 @@ header .header-right ul li:focus-visible {
 
 
 /* ---- Responsive ---- */
+
+/* 1024px — tighten up spacing so nothing clips */
+@media (max-width: 1024px) {
+  .hero {
+    height: auto;
+    min-height: 82vh;
+    padding-bottom: 20px;
+  }
+
+  .hero-inner {
+    margin-top: 20px;
+  }
+
+  .hero-vector {
+    margin-top: 60px;
+  }
+}
+
+/* 860px — tablet: stack into a column */
 @media (max-width: 860px) {
   .hero {
-    padding: 30px 5% 30px;
-    height: 110vh;
-    overflow: visible;
+    height: auto;
+    min-height: unset;
+    padding: 30px 5% 40px;
+    background-position: center bottom;
   }
 
   .hero-inner {
     flex-direction: column;
     align-items: center;
-    gap: 24px;
+    gap: 20px;
+    margin-top: 16px;
   }
 
-  /* Image block on top */
   .hero-right {
     flex: unset;
     order: 1;
     width: 100%;
-    max-width: 340px;
+    max-width: 360px;
+    height: auto;
     justify-content: center;
   }
 
   .hero-vector {
     max-width: 100%;
+    width: 100%;
+    margin-top: 0;
     height: auto;
   }
 
-  /* Text block below */
   .hero-left {
     flex: unset;
     order: 2;
     width: 100%;
     align-items: center;
     text-align: center;
+    gap: 18px;
+  }
+
+  .hero-heading {
+    font-size: clamp(26px, 5vw, 38px);
   }
 
   .hero-body {
@@ -389,25 +417,33 @@ header .header-right ul li:focus-visible {
     text-align: center;
   }
 
-  /* CTA stretches full width */
   .hero-cta {
-    align-self: stretch;
-    text-align: center;
-    flex: 1;
+    align-self: center;
+    padding: 13px 36px;
   }
 }
 
+/* 480px — mobile */
 @media (max-width: 480px) {
   .hero {
-    padding: 36px 5% 50px;
+    padding: 24px 5% 40px;
   }
 
   .hero-right {
-    max-width: 280px;
+    max-width: 260px;
   }
 
   .hero-heading {
     font-size: clamp(24px, 7vw, 32px);
+  }
+
+  .hero-body {
+    font-size: 14px;
+  }
+
+  .hero-cta {
+    padding: 12px 28px;
+    font-size: 14px;
   }
 }
 
