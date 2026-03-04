@@ -31,7 +31,7 @@
   --font-size-h1: 48px;
   --font-size-h2: 36px;
   --font-size-h3: 20px;
-  --font-size-body: 16px;
+  --font-size-body: 18px;
   --font-size-small: 14px;
 
   --font-weight-bold: 700;
@@ -40,7 +40,7 @@
 
   /* ===== BORDER RADIUS ===== */
   --radius-large: 24px;
-  --radius-medium: 16px;
+  --radius-medium: 18px;
   --radius-pill: 999px;
 
   /* ===== TRANSITIONS ===== */
@@ -106,6 +106,7 @@ header .header-right ul li {
   font-weight: 500;
   cursor: pointer;
   transition: color 0.3s ease;
+  font-size: 18px;
 }
 
 /* Animated underline */
@@ -229,7 +230,15 @@ header .header-right ul li:focus-visible {
   }
 }
 
-@media (max-width: 900px) {
+
+@media (max-width: 950px) {
+  header .header-right ul li {
+    font-size: 16px;
+  }
+}
+
+
+@media (max-width: 910px) {
 
   /* Hide desktop menu */
   header .header-right {
@@ -242,11 +251,11 @@ header .header-right ul li:focus-visible {
   }
 
   header .header-left h1 {
-    font-size: 20px;
+    font-size: 25px;
   }
 
   header .header-left h1 span {
-    font-size: 20px;
+    font-size: 25px;
   }
 
   header .header-left .logo {
@@ -257,8 +266,12 @@ header .header-right ul li:focus-visible {
 /* ===== HERO STYLES ===== */
 .hero {
   width: 100%;
-  background: url("./assets/hero-bg-new.png") center 100% / cover no-repeat;
-  padding: 20px 5% 0px;
+  /* background: url("./assets/hero-bg-new.png") center 100% / cover no-repeat; */
+  background: url("./assets/hero-bg-new.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  padding: 8px 5% 0px;
   position: relative;
   overflow: hidden;
   height: 82vh;
@@ -268,7 +281,7 @@ header .header-right ul li:focus-visible {
 .hero-inner {
   max-width: 1400px;
   margin: 0 auto;
-  margin-top: 30px;
+  margin-top: 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -297,7 +310,7 @@ header .header-right ul li:focus-visible {
 }
 
 .hero-body {
-  font-size: clamp(14px, 1.1vw, 16px);
+  font-size: 18px;
   color: var(--color-text-body);
   line-height: 1.75;
   max-width: 400px;
@@ -309,7 +322,7 @@ header .header-right ul li:focus-visible {
   background: var(--color-accent);
   color: var(--color-white);
   font-weight: var(--font-weight-semibold);
-  font-size: 15px;
+  font-size: 18px;
   border-radius: var(--radius-pill);
   text-decoration: none;
   transition: var(--transition-default);
@@ -450,7 +463,7 @@ header .header-right ul li:focus-visible {
 /* ===== WHY CHOOSE STYLES ===== */
 .why-choose {
   width: 100%;
-  padding: 80px 5%;
+  padding: 40px 5% 40px;
   background: var(--color-bg-gradient-start);
   display: flex;
   align-items: center;
@@ -498,7 +511,7 @@ header .header-right ul li:focus-visible {
 }
 
 .why-choose-body {
-  font-size: clamp(14px, 1.1vw, 16px);
+  font-size: 18px;
   color: var(--color-text-body);
   line-height: 1.7;
   max-width: 600px;
@@ -563,16 +576,17 @@ header .header-right ul li:focus-visible {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  font-size: 18px;
 }
 
 .why-choose-card-title {
-  font-size: 15px;
+  font-size: 18px;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
 }
 
 .why-choose-card-desc {
-  font-size: 13px;
+  font-size: 18px;
   color: var(--color-text-muted);
   line-height: 1.5;
 }
@@ -605,7 +619,7 @@ header .header-right ul li:focus-visible {
 /* ===== RECENT WORK STYLES ===== */
 .recent-work {
   width: 100%;
-  padding: 80px 5%;
+  padding: 40px 5% 80px;
   background: var(--color-bg-gradient-start);
 }
 
@@ -634,7 +648,7 @@ header .header-right ul li:focus-visible {
 }
 
 .recent-work-body {
-  font-size: clamp(14px, 1.1vw, 16px);
+  font-size: 18px;
   color: var(--color-text-body);
   line-height: 1.7;
   max-width: 580px;
