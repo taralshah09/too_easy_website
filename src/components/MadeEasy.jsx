@@ -4,7 +4,7 @@ export default function MadeEasy() {
             <div className="made-easy-inner">
                 <div className="made-easy-top">
                     <h2 className="made-easy-heading">
-                        Small Business Websites <span>Made Easy!</span>
+                        Small Business Websites <span style={{ fontWeight: "600", color: "var(--color-text-primary)" }}>Made</span> <span>Easy</span>
                     </h2>
                     <p className="made-easy-subheading">
                         Affordable, professional websites for small businesses that get you online fast with no hassle.
