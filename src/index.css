@@ -291,17 +291,17 @@ header .header-right ul li:focus-visible {
 
 /* ---- Left column ---- */
 .hero-left {
-  flex: 0 0 38%;
+  flex: 0 0 58%;
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 20px;
 }
 
 .hero-heading {
-  font-size: clamp(28px, 3.2vw, 48px);
-  font-weight: 500;
+  font-size: clamp(26px, 2.8vw, 44px);
+  font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
-  line-height: 1.2;
+  line-height: 1.25;
 }
 
 .hero-heading-accent {
@@ -313,16 +313,16 @@ header .header-right ul li:focus-visible {
   font-size: 18px;
   color: var(--color-text-body);
   line-height: 1.75;
-  max-width: 400px;
 }
 
 .hero-cta {
   display: inline-block;
-  padding: 14px 40px;
+  padding: 14px 20px;
   background: var(--color-accent);
   color: var(--color-white);
-  font-weight: var(--font-weight-semibold);
-  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  font-size: 20px;
+  letter-spacing: 0.08em;
   border-radius: var(--radius-pill);
   text-decoration: none;
   transition: var(--transition-default);
@@ -338,7 +338,7 @@ header .header-right ul li:focus-visible {
 
 /* ---- Right column ---- */
 .hero-right {
-  flex: 0 0 57%;
+  flex: 0 0 38%;
   position: relative;
   display: flex;
   align-items: center;
@@ -348,8 +348,8 @@ header .header-right ul li:focus-visible {
 
 .hero-vector {
   width: auto;
-  max-height: 700px;
-  min-height: 420px;
+  max-height: 560px;
+  min-height: 380px;
   object-fit: contain;
   object-position: center;
   display: block;
@@ -362,8 +362,8 @@ header .header-right ul li:focus-visible {
 
 @media (max-width: 1150px) {
   .hero-vector {
-    max-height: 650px;
-    min-height: 400px;
+    max-height: 500px;
+    min-height: 340px;
   }
 }
 
@@ -378,9 +378,9 @@ header .header-right ul li:focus-visible {
   }
 
   .hero-vector {
-    max-width: 620px;
-    max-height: 600px;
-    min-height: 380px;
+    max-width: 480px;
+    max-height: 480px;
+    min-height: 320px;
   }
 }
 
@@ -396,9 +396,9 @@ header .header-right ul li:focus-visible {
   }
 
   .hero-vector {
-    max-width: 550px;
-    max-height: 600px;
-    min-height: 380px;
+    max-width: 420px;
+    max-height: 460px;
+    min-height: 300px;
   }
 }
 
@@ -639,6 +639,100 @@ header .header-right ul li:focus-visible {
   }
 }
 
+/* ===== MADE EASY STYLES ===== */
+.made-easy {
+  width: 100%;
+  padding: 50px 5%;
+  background: var(--color-bg-gradient-start);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.made-easy-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  text-align: center;
+}
+
+.made-easy-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.made-easy-heading {
+  font-size: clamp(28px, 3vw, 44px);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-primary);
+  line-height: 1.25;
+}
+
+.made-easy-heading span {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-accent);
+}
+
+.made-easy-subheading {
+  font-size: 18px;
+  color: var(--color-text-body);
+  line-height: 1.75;
+  max-width: 720px;
+}
+
+.made-easy-bottom {
+  background: var(--color-white);
+  border-radius: var(--radius-large);
+  padding: 28px 36px;
+  box-shadow: 0 2px 12px var(--color-shadow);
+}
+
+.made-easy-body {
+  font-size: 16px;
+  color: var(--color-text-muted);
+  line-height: 1.9;
+  max-width: 900px;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+  .made-easy {
+    padding: 40px 5%;
+  }
+
+  .made-easy-subheading {
+    font-size: 16px;
+  }
+
+  .made-easy-bottom {
+    padding: 22px 24px;
+  }
+
+  .made-easy-body {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .made-easy-heading {
+    font-size: clamp(24px, 7vw, 32px);
+  }
+
+  .made-easy-subheading,
+  .made-easy-body {
+    font-size: 14px;
+  }
+
+  .made-easy-bottom {
+    padding: 18px 18px;
+  }
+}
+
 /* ===== RECENT WORK STYLES ===== */
 .recent-work {
   width: 100%;
@@ -784,5 +878,65 @@ header .header-right ul li:focus-visible {
 @media (max-width: 380px) {
   .recent-work-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ===== FOOTER STYLES ===== */
+.footer {
+  width: 100%;
+  background: var(--color-primary);
+  padding: 18px 5%;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.footer-brand {
+  font-size: 16px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-white);
+}
+
+.footer-brand span {
+  color: var(--color-accent);
+}
+
+.footer-nav ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.footer-nav ul li {
+  font-size: 14px;
+  font-weight: var(--font-weight-regular);
+  color: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+  transition: var(--transition-default);
+}
+
+.footer-nav ul li:hover {
+  color: var(--color-accent);
+}
+
+@media (max-width: 640px) {
+  .footer-inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 14px;
+  }
+
+  .footer-nav ul {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px 20px;
   }
 }
