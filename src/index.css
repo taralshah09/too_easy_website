@@ -263,6 +263,14 @@ header .header-right ul li:focus-visible {
   }
 }
 
+@media (max-width: 500px) {
+
+  header .header-left h1 {
+    font-size: 20px;
+  }
+
+}
+
 /* ===== HERO STYLES ===== */
 .hero {
   width: 100%;
