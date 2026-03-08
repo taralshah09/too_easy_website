@@ -282,8 +282,8 @@ header .header-right ul li:focus-visible {
   padding: 8px 5% 0px;
   position: relative;
   overflow: hidden;
-  height: 82vh;
-  min-height: 580px;
+  height: 70vh;
+  /* min-height: 580px; */
 }
 
 .hero-inner {
@@ -302,7 +302,7 @@ header .header-right ul li:focus-visible {
   flex: 0 0 55%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 12px;
 }
 
 .hero-heading {
@@ -320,7 +320,7 @@ header .header-right ul li:focus-visible {
 .hero-body {
   font-size: 18px;
   color: var(--color-text-body);
-  line-height: 1.75;
+  line-height: 1.55;
 }
 
 .hero-cta {
@@ -377,8 +377,8 @@ header .header-right ul li:focus-visible {
 
 @media (max-width: 1050px) {
   .hero {
-    height: 82vh;
-    min-height: 560px;
+    height: 70vh;
+    /* min-height: 560px; */
   }
 
   .hero-inner {
@@ -407,8 +407,8 @@ header .header-right ul li:focus-visible {
 
 @media (max-width: 1000px) {
   .hero {
-    height: 82vh;
-    min-height: 560px;
+    height: 70vh;
+    /* min-height: 560px; */
   }
 
   .hero-inner {
@@ -518,7 +518,7 @@ header .header-right ul li:focus-visible {
 /* ===== WHY CHOOSE STYLES ===== */
 .why-choose {
   width: 100%;
-  padding: 20px 5% 20px;
+  padding: 8px 5% 20px;
   background: var(--color-bg-gradient-start);
   display: flex;
   align-items: center;
@@ -674,7 +674,7 @@ header .header-right ul li:focus-visible {
 /* ===== MADE EASY STYLES ===== */
 .made-easy {
   width: 100%;
-  padding: 50px 5%;
+  padding: 20px 5%;
   background: var(--color-bg-gradient-start);
   display: flex;
   align-items: center;
@@ -725,7 +725,7 @@ header .header-right ul li:focus-visible {
 }
 
 .made-easy-body {
-  font-size: 16px;
+  font-size: 18px;
   color: var(--color-text-muted);
   line-height: 1.9;
   max-width: 900px;
@@ -746,7 +746,7 @@ header .header-right ul li:focus-visible {
   }
 
   .made-easy-body {
-    font-size: 15px;
+    font-size: 16px;
   }
 }
 
@@ -768,7 +768,7 @@ header .header-right ul li:focus-visible {
 /* ===== RECENT WORK STYLES ===== */
 .recent-work {
   width: 100%;
-  padding: 20px 5% 50px;
+  padding: 8px 5% 50px;
   background: var(--color-bg-gradient-start);
 }
 
