@@ -1,27 +1,30 @@
 import { useState } from "react"
+import { Link } from "react-router-dom"
 import logo from "../assets/logo.png"
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
+  const closeMenu = () => setIsOpen(false)
 
   return (
     <>
       <header>
         <div className="header-left">
-          <img src={logo} alt="TooEasyWebsite logo" className="logo" />
-          <h1>
-            Too<span>Easy</span>Websites
-          </h1>
+          <Link to="/" onClick={closeMenu}>
+            <img src={logo} alt="TooEasyWebsite logo" className="logo" />
+          </Link>
+          <Link to="/" className="header-brand-link" onClick={closeMenu}>
+            <h1>Too<span>Easy</span>Websites</h1>
+          </Link>
         </div>
 
         {/* Desktop Menu */}
         <nav className="header-right">
           <ul>
-            <li>Home</li>
-            <li>About Us</li>
-            <li>Our Services</li>
-            <li>Portfolio</li>
-            <li>Contact Us</li>
+            <li><Link to="/">Home</Link></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Our Services</a></li>
+            <li><Link to="/contact">Contact Us</Link></li>
           </ul>
         </nav>
 
@@ -39,11 +42,10 @@ export default function Navbar() {
       {/* Mobile Dropdown Menu */}
       <div className={`mobile-menu ${isOpen ? "show" : ""}`}>
         <ul>
-          <li>Home</li>
-          <li>About Us</li>
-          <li>Our Services</li>
-          <li>Portfolio</li>
-          <li>Contact Us</li>
+          <li><Link to="/" onClick={closeMenu}>Home</Link></li>
+          <li><a href="#" onClick={closeMenu}>About Us</a></li>
+          <li><a href="#" onClick={closeMenu}>Our Services</a></li>
+          <li><Link to="/contact" onClick={closeMenu}>Contact Us</Link></li>
         </ul>
       </div>
     </>
