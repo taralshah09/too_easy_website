@@ -1,4 +1,5 @@
-import heroVector from "../assets/hero-vec-with-shadow-new.png";
+import { Link } from "react-router-dom"
+import heroVector from "../assets/hero-vec-with-shadow-new.png"
 
 export default function Hero() {
     return (
@@ -6,7 +7,6 @@ export default function Hero() {
             <div className="hero-inner">
                 <div className="hero-left">
                     <h2 className="hero-heading">
-                        {/* Two Free Homepage Designs within Hours. No Obligation. */}
                         Get Two Free Homepage Designs Within Hours - No Obligation
                     </h2>
                     <p className="hero-body">
@@ -15,8 +15,7 @@ export default function Hero() {
                     <p className="hero-body">
                         Tell us about your small business, send us your logo and any images you want to include, tell us what kind of website you'd like, and we'll bring your ideas and your business to life for <em>free!</em>
                     </p>
-                    {/* <a href="#contact" className="hero-cta">Get Free Designs</a> */}
-                    <a href="#contact" className="hero-cta">GET FREE DESIGNS</a>
+                    <Link to="/contact" className="hero-cta">GET FREE DESIGNS</Link>
                 </div>
 
                 <div className="hero-right">
@@ -28,5 +27,5 @@ export default function Hero() {
                 </div>
             </div>
         </section>
-    );
+    )
 }
