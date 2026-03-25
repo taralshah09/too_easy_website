@@ -1,8 +1,8 @@
 {
-    "rewrites": [
-        {
-            "source": "/(.*)",
-            "destination": "/index.html"
+    "devCommand": "vite --port 3000",
+    "functions": {
+        "api/submit-form.js": {
+            "maxDuration": 30
         }
-    ]
+    }
 }
