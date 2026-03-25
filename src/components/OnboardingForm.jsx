@@ -5,10 +5,13 @@ import phoneCodes from '../data/phoneCode.json';
 const CLOUDINARY_CLOUD_NAME = 'do81m3zqi';       // e.g. 'dxyz123abc'
 const CLOUDINARY_UPLOAD_PRESET = 'TooEasyWebsite'; // unsigned preset name
 
-const FORMSUBMIT_EMAIL = 'akeimsuth@gmail.com';
+const FORMSUBMIT_EMAILS = ['akeimsuth@gmail.com', 'taralonyt@gmail.com'];
 // ───────────────────────────────────────────────────────────────────────────────
 
-
+/**
+ * Uploads a File object to Cloudinary and returns the secure URL string.
+ * Throws if the upload fails.
+ */
 const uploadToCloudinary = async (file) => {
     const data = new FormData();
     data.append('file', file);
@@ -126,7 +129,6 @@ const OnboardingForm = () => {
     };
 
     const handleNext = () => {
-        if (currentStep >= 9) return;
         if (validateStep(currentStep)) {
             setCurrentStep(prev => prev + 1);
             window.scrollTo(0, 0);
@@ -147,15 +149,6 @@ const OnboardingForm = () => {
     // ── Submit: send via FormSubmit ────────────────────────────────────────────
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // Only allow submission from the final step
-        if (currentStep < 9) {
-            handleNext();
-            return;
-        }
-
-        if (isSubmitting) return;
-
         if (!validateStep(currentStep)) return;
 
         if (Object.values(uploadingFields).some(Boolean)) {
@@ -182,13 +175,17 @@ const OnboardingForm = () => {
             payload._captcha = 'false';   // disable captcha (optional)
             payload._template = 'table';  // nicely formatted email
 
-            const res = await fetch(`https://formsubmit.co/ajax/${FORMSUBMIT_EMAIL}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-                body: JSON.stringify(payload),
-            });
+            const results = await Promise.all(
+                FORMSUBMIT_EMAILS.map(email =>
+                    fetch(`https://formsubmit.co/ajax/${email}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                        body: JSON.stringify(payload),
+                    })
+                )
+            );
 
-            if (res.ok) {
+            if (results.every(r => r.ok)) {
                 setIsSubmitted(true);
             } else {
                 alert('There was an error submitting the form. Please try again.');
@@ -210,7 +207,6 @@ const OnboardingForm = () => {
                 <h3>Thank You!</h3>
                 <p>Your business information has been successfully shared with us. We'll start reviewing your requirements and get in touch with you shortly.</p>
                 <button
-                    type="button"
                     className="contact-btn contact-btn-primary"
                     onClick={() => { setIsSubmitted(false); setCurrentStep(1); setFormData({ ...emptyForm }); }}
                 >
@@ -304,11 +300,11 @@ const OnboardingForm = () => {
                                         name="phoneCode"
                                         value={formData.phoneCode}
                                         onChange={handleChange}
-                                        style={{ width: '85px', padding: '11px 8px', border: '1.5px solid var(--color-border)', borderRadius: '10px', background: 'var(--color-bg-light)', fontFamily: 'inherit', fontSize: '14px', color: 'var(--color-text-primary)' }}
+                                        style={{ width: '130px', padding: '11px 12px', border: '1.5px solid var(--color-border)', borderRadius: '10px', background: 'var(--color-bg-light)', fontFamily: 'inherit', fontSize: '14px', color: 'var(--color-text-primary)', outline: 'none', cursor: 'pointer' }}
                                     >
                                         {phoneCodes.data.map((country, idx) => (
                                             <option key={`${country.code}-${idx}`} value={country.callingCode}>
-                                                {country.callingCode}
+                                                {country.name} ({country.callingCode})
                                             </option>
                                         ))}
                                     </select>
@@ -598,35 +594,25 @@ const OnboardingForm = () => {
 
             {/* ── FOOTER ── */}
             <div className="modal-footer">
-                <div className="modal-footer-left">
+                <div style={{ display: 'flex', gap: '12px', flex: 1 }}>
                     {currentStep > 1 && (
-                        <button type="button" className="contact-btn contact-btn-secondary" onClick={handleBack} disabled={isSubmitting}>
+                        <button type="button" className="contact-btn contact-btn-secondary" onClick={handleBack} disabled={isSubmitting} style={{ minWidth: '100px' }}>
                             Back
                         </button>
                     )}
                     {currentStep < 9 && (
-                        <button type="button" className="contact-btn contact-btn-secondary" onClick={handleSkip} disabled={isSubmitting}>
+                        <button type="button" className="contact-btn contact-btn-secondary" onClick={handleSkip} disabled={isSubmitting} style={{ minWidth: '100px' }}>
                             Skip to Last
                         </button>
                     )}
                 </div>
 
                 {currentStep < 9 ? (
-                    <button
-                        key="next-step-btn"
-                        type="button"
-                        className="contact-btn contact-btn-primary"
-                        onClick={handleNext}
-                    >
+                    <button type="button" className="contact-btn contact-btn-primary" onClick={handleNext} style={{ minWidth: '160px' }}>
                         Next Step
                     </button>
                 ) : (
-                    <button
-                        key="submit-form-btn"
-                        type="submit"
-                        className="contact-btn contact-btn-primary"
-                        disabled={isSubmitting || Object.values(uploadingFields).some(Boolean)}
-                    >
+                    <button type="submit" className="contact-btn contact-btn-primary" disabled={isSubmitting || Object.values(uploadingFields).some(Boolean)} style={{ minWidth: '160px' }}>
                         {isSubmitting ? 'Submitting…' : 'Submit My Details'}
                     </button>
                 )}
