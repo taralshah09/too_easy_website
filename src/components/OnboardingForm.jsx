@@ -1,91 +1,105 @@
 import React, { useState } from 'react';
 import phoneCodes from '../data/phoneCode.json';
 
+// ─── CONFIG ────────────────────────────────────────────────────────────────────
+const CLOUDINARY_CLOUD_NAME = 'do81m3zqi';       // e.g. 'dxyz123abc'
+const CLOUDINARY_UPLOAD_PRESET = 'TooEasyWebsite'; // unsigned preset name
+
+const FORMSUBMIT_EMAIL = 'akeimsuth@gmail.com';
+// ───────────────────────────────────────────────────────────────────────────────
+
+
+const uploadToCloudinary = async (file) => {
+    const data = new FormData();
+    data.append('file', file);
+    data.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+
+    const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`,
+        { method: 'POST', body: data }
+    );
+
+    if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err?.error?.message || 'Cloudinary upload failed');
+    }
+
+    const json = await res.json();
+    return json.secure_url;
+};
 
 const OnboardingForm = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [uploadingFields, setUploadingFields] = useState({}); // tracks per-field upload state
     const [errors, setErrors] = useState({});
 
-    const [formData, setFormData] = useState({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phoneCode: "+1",
-        phone: "",
-        businessName: "",
-        businessType: "",
-        businessAddress: "",
-        locationsCovered: "",
-        currentWebsite: "",
-        websitePurpose: [],
-        websitePurposeOther: "",
-        targetAudience: "",
-        userActions: [],
-        userActionsOther: "",
+    const emptyForm = {
+        firstName: "", lastName: "", email: "", phoneCode: "+1", phone: "",
+        businessName: "", businessType: "", businessAddress: "",
+        locationsCovered: "", currentWebsite: "",
+        websitePurpose: [], websitePurposeOther: "",
+        targetAudience: "", userActions: [], userActionsOther: "",
         uniqueSellingPoints: "",
-        hasLogo: "",
-        logoUpload: null,
-        wantLogoDesign: "",
-        logoDescription: "",
-        logoColors: "",
-        leaveToDesigner: false,
-        exampleWebsite1: "",
-        exampleWebsite2: "",
-        designStyles: [],
-        customStyle: "",
-        pages: [],
-        productServiceDetails: "",
-        needsPayments: "",
-        needsBlog: "",
-        hasContent: "",
-        contentUpload: null,
-        wantContentWriting: "",
-        contentInstructions: "",
-        hasImages: "",
-        imageUpload: null,
-        userManagesSite: "",
-        weManageSite: "",
-        needsSEO: "",
-        budget: "",
-        launchDate: "",
-        additionalNotes: ""
-    });
+        hasLogo: "", logoUpload: null, wantLogoDesign: "",
+        logoDescription: "", logoColors: "", leaveToDesigner: false,
+        exampleWebsite1: "", exampleWebsite2: "",
+        designStyles: [], customStyle: "",
+        pages: [], productServiceDetails: "",
+        needsPayments: "", needsBlog: "",
+        hasContent: "", contentUpload: null,
+        wantContentWriting: "", contentInstructions: "",
+        hasImages: "", imageUpload: null,
+        userManagesSite: "", weManageSite: "", needsSEO: "",
+        budget: "", launchDate: "", additionalNotes: ""
+    };
 
+    const [formData, setFormData] = useState({ ...emptyForm });
+
+    // ── Generic text/radio/select change ──────────────────────────────────────
     const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        if (type === 'checkbox') {
-            // Checkboxes are handled via specialty functions
-        } else if (type === 'file') {
-            setFormData(prev => ({
-                ...prev,
-                [name]: e.target.files[0]
-            }));
-        } else {
-            setFormData(prev => ({
-                ...prev,
-                [name]: value
-            }));
-        }
+        const { name, value, type } = e.target;
+        if (type === 'file') return; // handled by handleFileChange
+        if (type === 'checkbox') return; // handled by handleCheckboxGroup / inline
 
-        // Clear error when user types
-        if (errors[name]) {
-            setErrors(prev => ({ ...prev, [name]: null }));
+        setFormData(prev => ({ ...prev, [name]: value }));
+        if (errors[name]) setErrors(prev => ({ ...prev, [name]: null }));
+    };
+
+    // ── File change: upload to Cloudinary, store URL ──────────────────────────
+    const handleFileChange = async (e) => {
+        const { name, files } = e.target;
+        const file = files?.[0];
+        if (!file) return;
+
+        setUploadingFields(prev => ({ ...prev, [name]: true }));
+        try {
+            const url = await uploadToCloudinary(file);
+            setFormData(prev => ({ ...prev, [name]: url }));
+        } catch (err) {
+            console.error('Upload error:', err);
+            alert(`File upload failed: ${err.message}`);
+            setFormData(prev => ({ ...prev, [name]: null }));
+        } finally {
+            setUploadingFields(prev => ({ ...prev, [name]: false }));
         }
     };
 
+    // ── Checkbox groups ────────────────────────────────────────────────────────
     const handleCheckboxGroup = (groupName, value) => {
         setFormData(prev => {
-            const currentArr = prev[groupName] || [];
-            if (currentArr.includes(value)) {
-                return { ...prev, [groupName]: currentArr.filter(item => item !== value) };
-            } else {
-                return { ...prev, [groupName]: [...currentArr, value] };
-            }
+            const arr = prev[groupName] || [];
+            return {
+                ...prev,
+                [groupName]: arr.includes(value)
+                    ? arr.filter(i => i !== value)
+                    : [...arr, value]
+            };
         });
     };
 
+    // ── Validation ─────────────────────────────────────────────────────────────
     const validateStep = (step) => {
         const newErrors = {};
         if (step === 1) {
@@ -121,64 +135,71 @@ const OnboardingForm = () => {
     const handleSkip = () => {
         if (isSubmitting) return;
         if (currentStep === 1) {
-            if (validateStep(1)) {
-                setCurrentStep(9);
-                window.scrollTo(0, 0);
-            }
+            if (validateStep(1)) { setCurrentStep(9); window.scrollTo(0, 0); }
         } else if (currentStep < 9) {
-            setCurrentStep(9);
+            setCurrentStep(9); window.scrollTo(0, 0);
+        }
+    };
+
+    const handleBack = () => { setCurrentStep(prev => prev - 1); window.scrollTo(0, 0); };
+
+    // ── Submit: send via FormSubmit ────────────────────────────────────────────
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        // Prevent accidental submission if 'Enter' is pressed on intermediate steps
+        if (currentStep < 9) {
+            handleNext();
+            return;
+        }
+
+        if (!validateStep(currentStep)) return;
+
+        if (Object.values(uploadingFields).some(Boolean)) {
+            alert('Please wait — a file is still uploading.');
+            return;
+        }
+
+        setIsSubmitting(true);
+        try {
+            // Flatten everything to strings for FormSubmit
+            const payload = {};
+            Object.entries(formData).forEach(([key, val]) => {
+                if (Array.isArray(val)) {
+                    payload[key] = val.join(', ') || '—';
+                } else if (val === null || val === undefined || val === '') {
+                    payload[key] = '—';
+                } else {
+                    payload[key] = String(val);
+                }
+            });
+
+            // FormSubmit special fields
+            payload._subject = `New Project Onboarding — ${payload.businessName}`;
+            payload._captcha = 'false';   // disable captcha (optional)
+            payload._template = 'table';  // nicely formatted email
+
+            const res = await fetch(`https://formsubmit.co/ajax/${FORMSUBMIT_EMAIL}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                body: JSON.stringify(payload),
+            });
+
+            if (res.ok) {
+                setIsSubmitted(true);
+            } else {
+                alert('There was an error submitting the form. Please try again.');
+            }
+        } catch (err) {
+            console.error('FormSubmit error:', err);
+            alert('An unexpected error occurred. Please try again.');
+        } finally {
+            setIsSubmitting(false);
             window.scrollTo(0, 0);
         }
     };
 
-    const handleBack = () => {
-        setCurrentStep(prev => prev - 1);
-        window.scrollTo(0, 0);
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (validateStep(currentStep)) {
-            setIsSubmitting(true);
-            try {
-                // Formatting data for Email submission using formsubmit.co
-                const submissionData = new FormData();
-                Object.keys(formData).forEach(key => {
-                    const value = formData[key];
-                    if (value instanceof File) {
-                        submissionData.append(key, value);
-                    } else if (Array.isArray(value)) {
-                        submissionData.append(key, value.join(', '));
-                    } else if (value !== null && value !== undefined && value !== "") {
-                        submissionData.append(key, value);
-                    }
-                });
-
-                // Adding formatting hints for FormSubmit
-                submissionData.append("_subject", `New Onboarding Submission: ${formData.businessName}`);
-                submissionData.append("_replyto", formData.email);
-                submissionData.append("_template", "table");
-
-                const response = await fetch("https://formsubmit.co/ajax/taralonyt@gmail.com", {
-                    method: "POST",
-                    body: submissionData
-                });
-
-                if (response.ok) {
-                    setIsSubmitted(true);
-                } else {
-                    alert("There was an error submitting the form. Please try again.");
-                }
-            } catch (error) {
-                console.error("Submission error:", error);
-                alert("An unexpected error occurred. Please try again.");
-            } finally {
-                setIsSubmitting(false);
-                window.scrollTo(0, 0);
-            }
-        }
-    };
-
+    // ── Success screen ─────────────────────────────────────────────────────────
     if (isSubmitted) {
         return (
             <div className="modal-success" style={{ margin: '0 auto', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-large)', background: 'var(--color-white)', maxWidth: '900px', width: '100%' }}>
@@ -187,20 +208,7 @@ const OnboardingForm = () => {
                 <p>Your business information has been successfully shared with us. We'll start reviewing your requirements and get in touch with you shortly.</p>
                 <button
                     className="contact-btn contact-btn-primary"
-                    onClick={() => {
-                        setIsSubmitted(false);
-                        setCurrentStep(1);
-                        setFormData({
-                            firstName: "", lastName: "", email: "", phoneCode: "+1", phone: "", businessName: "", businessType: "", businessAddress: "",
-                            locationsCovered: "", currentWebsite: "", websitePurpose: [], websitePurposeOther: "", targetAudience: "",
-                            userActions: [], userActionsOther: "", uniqueSellingPoints: "", hasLogo: "", logoUpload: null,
-                            wantLogoDesign: "", logoDescription: "", logoColors: "", leaveToDesigner: false, exampleWebsite1: "",
-                            exampleWebsite2: "", designStyles: [], customStyle: "", pages: [], productServiceDetails: "",
-                            needsPayments: "", needsBlog: "", hasContent: "", contentUpload: null, wantContentWriting: "",
-                            contentInstructions: "", hasImages: "", imageUpload: null, userManagesSite: "", weManageSite: "",
-                            needsSEO: "", budget: "", launchDate: "", additionalNotes: ""
-                        });
-                    }}
+                    onClick={() => { setIsSubmitted(false); setCurrentStep(1); setFormData({ ...emptyForm }); }}
                 >
                     Back to Form
                 </button>
@@ -208,30 +216,62 @@ const OnboardingForm = () => {
         );
     }
 
-    const renderStepNumbers = () => {
-        const totalSteps = 9;
-        const dots = [];
-        for (let i = 1; i <= totalSteps; i++) {
-            dots.push(
+    // ── Step dots ──────────────────────────────────────────────────────────────
+    const renderStepNumbers = () => (
+        <div className="step-indicator">
+            {Array.from({ length: 9 }, (_, i) => i + 1).map(i => (
                 <div
                     key={i}
                     className={`step-dot ${i === currentStep ? 'active' : ''} ${i < currentStep ? 'done' : ''}`}
                     title={`Step ${i}`}
-                ></div>
-            );
-        }
-        return <div className="step-indicator">{dots}</div>;
+                />
+            ))}
+        </div>
+    );
+
+    // ── File upload helper UI ──────────────────────────────────────────────────
+    const FileUploadField = ({ name, accept, label }) => {
+        const isUploading = !!uploadingFields[name];
+        const url = formData[name]; // null or a Cloudinary URL string
+
+        return (
+            <div className="file-upload-area" style={{ position: 'relative' }}>
+                {isUploading ? (
+                    <span>⏳ Uploading…</span>
+                ) : url ? (
+                    <span>
+                        ✅ Uploaded —{' '}
+                        <a href={url} target="_blank" rel="noreferrer" style={{ fontSize: '12px', wordBreak: 'break-all' }}>
+                            {url}
+                        </a>
+                    </span>
+                ) : (
+                    <span>{label || 'Click to upload'}</span>
+                )}
+                <input
+                    type="file"
+                    name={name}
+                    accept={accept}
+                    onChange={handleFileChange}
+                    disabled={isUploading}
+                    style={{ opacity: 0, position: 'absolute', inset: 0, cursor: 'pointer' }}
+                />
+            </div>
+        );
     };
 
+    // ── Render ─────────────────────────────────────────────────────────────────
     return (
         <form className="modal-box modal-box-large" style={{ margin: '0 auto', overflow: 'visible' }} onSubmit={handleSubmit}>
             <div className="modal-header">
                 <h3 className="modal-title">Project Onboarding</h3>
-                <p className="modal-subtitle">Step {currentStep} of 9 - Leave blank if unsure</p>
+                <p className="modal-subtitle">Step {currentStep} of 9 — Leave blank if unsure</p>
                 {renderStepNumbers()}
             </div>
 
             <div className="modal-body" style={{ overflow: 'visible' }}>
+
+                {/* ── STEP 1 ── */}
                 {currentStep === 1 && (
                     <div className="form-step">
                         <h4 className="step-title">Section 1: About You and Your Business</h4>
@@ -260,19 +300,7 @@ const OnboardingForm = () => {
                                         name="phoneCode"
                                         value={formData.phoneCode}
                                         onChange={handleChange}
-                                        className="phone-code-select"
-                                        style={{
-                                            width: '130px',
-                                            padding: '11px 12px',
-                                            border: '1.5px solid var(--color-border)',
-                                            borderRadius: '10px',
-                                            background: 'var(--color-bg-light)',
-                                            fontFamily: 'inherit',
-                                            fontSize: '14px',
-                                            color: 'var(--color-text-primary)',
-                                            outline: 'none',
-                                            cursor: 'pointer'
-                                        }}
+                                        style={{ width: '130px', padding: '11px 12px', border: '1.5px solid var(--color-border)', borderRadius: '10px', background: 'var(--color-bg-light)', fontFamily: 'inherit', fontSize: '14px', color: 'var(--color-text-primary)', outline: 'none', cursor: 'pointer' }}
                                     >
                                         {phoneCodes.data.map((country, idx) => (
                                             <option key={`${country.code}-${idx}`} value={country.callingCode}>
@@ -281,15 +309,9 @@ const OnboardingForm = () => {
                                         ))}
                                     </select>
                                     <input
-                                        type="tel"
-                                        name="phone"
-                                        value={formData.phone}
-                                        onChange={handleChange}
+                                        type="tel" name="phone" value={formData.phone} onChange={handleChange}
                                         placeholder="10-digit number"
-                                        style={{
-                                            flex: 1,
-                                            borderColor: errors.phone ? '#e05252' : 'var(--color-border)'
-                                        }}
+                                        style={{ flex: 1, borderColor: errors.phone ? '#e05252' : 'var(--color-border)' }}
                                     />
                                 </div>
                                 {errors.phone && <span className="required" style={{ fontSize: '12px' }}>{errors.phone}</span>}
@@ -323,6 +345,7 @@ const OnboardingForm = () => {
                     </div>
                 )}
 
+                {/* ── STEP 2 ── */}
                 {currentStep === 2 && (
                     <div className="form-step">
                         <h4 className="step-title">Section 2: About Your Business</h4>
@@ -365,6 +388,7 @@ const OnboardingForm = () => {
                     </div>
                 )}
 
+                {/* ── STEP 3 ── */}
                 {currentStep === 3 && (
                     <div className="form-step">
                         <h4 className="step-title">Section 3: Design Elements</h4>
@@ -378,10 +402,7 @@ const OnboardingForm = () => {
                         {formData.hasLogo === 'yes' && (
                             <div className="sub-fields">
                                 <label>Upload Logo</label>
-                                <div className="file-upload-area">
-                                    {formData.logoUpload ? <span>{formData.logoUpload.name} selected</span> : <span>Click to upload logo</span>}
-                                    <input type="file" name="logoUpload" onChange={handleChange} accept="image/*" />
-                                </div>
+                                <FileUploadField name="logoUpload" accept="image/*" label="Click to upload logo" />
                             </div>
                         )}
                         <div className="form-group">
@@ -410,6 +431,7 @@ const OnboardingForm = () => {
                     </div>
                 )}
 
+                {/* ── STEP 4 ── */}
                 {currentStep === 4 && (
                     <div className="form-step">
                         <h4 className="step-title">Section 4: Design Preferences</h4>
@@ -436,6 +458,7 @@ const OnboardingForm = () => {
                     </div>
                 )}
 
+                {/* ── STEP 5 ── */}
                 {currentStep === 5 && (
                     <div className="form-step">
                         <h4 className="step-title">Section 5: Website Requirements</h4>
@@ -473,6 +496,7 @@ const OnboardingForm = () => {
                     </div>
                 )}
 
+                {/* ── STEP 6 ── */}
                 {currentStep === 6 && (
                     <div className="form-step">
                         <h4 className="step-title">Section 6: Content</h4>
@@ -485,10 +509,7 @@ const OnboardingForm = () => {
                         </div>
                         {formData.hasContent === 'yes' && (
                             <div className="sub-fields">
-                                <div className="file-upload-area">
-                                    {formData.contentUpload ? <span>{formData.contentUpload.name} selected</span> : <span>Upload content file</span>}
-                                    <input type="file" name="contentUpload" onChange={handleChange} />
-                                </div>
+                                <FileUploadField name="contentUpload" label="Upload content file" />
                             </div>
                         )}
                         <div className="form-group">
@@ -510,15 +531,13 @@ const OnboardingForm = () => {
                         </div>
                         {formData.hasImages === 'yes' && (
                             <div className="sub-fields">
-                                <div className="file-upload-area">
-                                    {formData.imageUpload ? <span>{formData.imageUpload.name} selected</span> : <span>Upload images (zip preferred)</span>}
-                                    <input type="file" name="imageUpload" onChange={handleChange} />
-                                </div>
+                                <FileUploadField name="imageUpload" label="Upload images (zip preferred)" />
                             </div>
                         )}
                     </div>
                 )}
 
+                {/* ── STEP 7 ── */}
                 {currentStep === 7 && (
                     <div className="form-step">
                         <h4 className="step-title">Section 7: Site Management</h4>
@@ -546,6 +565,7 @@ const OnboardingForm = () => {
                     </div>
                 )}
 
+                {/* ── STEP 8 ── */}
                 {currentStep === 8 && (
                     <div className="form-step">
                         <h4 className="step-title">Section 8: Budget & Timeline</h4>
@@ -560,6 +580,7 @@ const OnboardingForm = () => {
                     </div>
                 )}
 
+                {/* ── STEP 9 ── */}
                 {currentStep === 9 && (
                     <div className="form-step">
                         <h4 className="step-title">Section 9: Additional Info</h4>
@@ -571,6 +592,7 @@ const OnboardingForm = () => {
                 )}
             </div>
 
+            {/* ── FOOTER ── */}
             <div className="modal-footer">
                 <div style={{ display: 'flex', gap: '12px', flex: 1 }}>
                     {currentStep > 1 && (
@@ -590,8 +612,8 @@ const OnboardingForm = () => {
                         Next Step
                     </button>
                 ) : (
-                    <button type="submit" className="contact-btn contact-btn-primary" disabled={isSubmitting} style={{ minWidth: '160px' }}>
-                        {isSubmitting ? "Submitting..." : "Submit My Details"}
+                    <button type="submit" className="contact-btn contact-btn-primary" disabled={isSubmitting || Object.values(uploadingFields).some(Boolean)} style={{ minWidth: '160px' }}>
+                        {isSubmitting ? 'Submitting…' : 'Submit My Details'}
                     </button>
                 )}
             </div>

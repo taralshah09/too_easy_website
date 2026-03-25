@@ -22,7 +22,7 @@ export default function Navbar() {
         <nav className="header-right">
           <ul>
             <li><Link to="/">Home</Link></li>
-            <li><a href="#">About Us</a></li>
+            <li><Link to="/about">About Us</Link></li>
             <li><a href="#">Our Services</a></li>
             <li><Link to="/contact">Contact Us</Link></li>
           </ul>
@@ -43,7 +43,7 @@ export default function Navbar() {
       <div className={`mobile-menu ${isOpen ? "show" : ""}`}>
         <ul>
           <li><Link to="/" onClick={closeMenu}>Home</Link></li>
-          <li><a href="#" onClick={closeMenu}>About Us</a></li>
+          <li><Link to="/about" onClick={closeMenu}>About Us</Link></li>
           <li><a href="#" onClick={closeMenu}>Our Services</a></li>
           <li><Link to="/contact" onClick={closeMenu}>Contact Us</Link></li>
         </ul>
