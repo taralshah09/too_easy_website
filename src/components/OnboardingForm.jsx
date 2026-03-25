@@ -126,6 +126,7 @@ const OnboardingForm = () => {
     };
 
     const handleNext = () => {
+        if (currentStep >= 9) return;
         if (validateStep(currentStep)) {
             setCurrentStep(prev => prev + 1);
             window.scrollTo(0, 0);
@@ -147,11 +148,13 @@ const OnboardingForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Prevent accidental submission if 'Enter' is pressed on intermediate steps
+        // Only allow submission from the final step
         if (currentStep < 9) {
             handleNext();
             return;
         }
+
+        if (isSubmitting) return;
 
         if (!validateStep(currentStep)) return;
 
@@ -207,6 +210,7 @@ const OnboardingForm = () => {
                 <h3>Thank You!</h3>
                 <p>Your business information has been successfully shared with us. We'll start reviewing your requirements and get in touch with you shortly.</p>
                 <button
+                    type="button"
                     className="contact-btn contact-btn-primary"
                     onClick={() => { setIsSubmitted(false); setCurrentStep(1); setFormData({ ...emptyForm }); }}
                 >
@@ -300,11 +304,11 @@ const OnboardingForm = () => {
                                         name="phoneCode"
                                         value={formData.phoneCode}
                                         onChange={handleChange}
-                                        style={{ width: '130px', padding: '11px 12px', border: '1.5px solid var(--color-border)', borderRadius: '10px', background: 'var(--color-bg-light)', fontFamily: 'inherit', fontSize: '14px', color: 'var(--color-text-primary)', outline: 'none', cursor: 'pointer' }}
+                                        style={{ width: '85px', padding: '11px 8px', border: '1.5px solid var(--color-border)', borderRadius: '10px', background: 'var(--color-bg-light)', fontFamily: 'inherit', fontSize: '14px', color: 'var(--color-text-primary)' }}
                                     >
                                         {phoneCodes.data.map((country, idx) => (
                                             <option key={`${country.code}-${idx}`} value={country.callingCode}>
-                                                {country.name} ({country.callingCode})
+                                                {country.callingCode}
                                             </option>
                                         ))}
                                     </select>
@@ -594,25 +598,35 @@ const OnboardingForm = () => {
 
             {/* ── FOOTER ── */}
             <div className="modal-footer">
-                <div style={{ display: 'flex', gap: '12px', flex: 1 }}>
+                <div className="modal-footer-left">
                     {currentStep > 1 && (
-                        <button type="button" className="contact-btn contact-btn-secondary" onClick={handleBack} disabled={isSubmitting} style={{ minWidth: '100px' }}>
+                        <button type="button" className="contact-btn contact-btn-secondary" onClick={handleBack} disabled={isSubmitting}>
                             Back
                         </button>
                     )}
                     {currentStep < 9 && (
-                        <button type="button" className="contact-btn contact-btn-secondary" onClick={handleSkip} disabled={isSubmitting} style={{ minWidth: '100px' }}>
+                        <button type="button" className="contact-btn contact-btn-secondary" onClick={handleSkip} disabled={isSubmitting}>
                             Skip to Last
                         </button>
                     )}
                 </div>
 
                 {currentStep < 9 ? (
-                    <button type="button" className="contact-btn contact-btn-primary" onClick={handleNext} style={{ minWidth: '160px' }}>
+                    <button
+                        key="next-step-btn"
+                        type="button"
+                        className="contact-btn contact-btn-primary"
+                        onClick={handleNext}
+                    >
                         Next Step
                     </button>
                 ) : (
-                    <button type="submit" className="contact-btn contact-btn-primary" disabled={isSubmitting || Object.values(uploadingFields).some(Boolean)} style={{ minWidth: '160px' }}>
+                    <button
+                        key="submit-form-btn"
+                        type="submit"
+                        className="contact-btn contact-btn-primary"
+                        disabled={isSubmitting || Object.values(uploadingFields).some(Boolean)}
+                    >
                         {isSubmitting ? 'Submitting…' : 'Submit My Details'}
                     </button>
                 )}

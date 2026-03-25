@@ -1124,8 +1124,8 @@ header .header-right ul li a:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 14px 28px;
-  border-radius: var(--radius-pill);
+  padding: 10px 20px;
+  border-radius: 1rem;
   font-family: "Poppins", sans-serif;
   font-weight: var(--font-weight-bold);
   font-size: 15px;
@@ -1134,7 +1134,7 @@ header .header-right ul li a:hover {
   transition: var(--transition-default);
   border: none;
   text-decoration: none;
-  min-width: 200px;
+  min-width: 140px;
 }
 
 .contact-btn-primary {
@@ -1305,6 +1305,13 @@ header .header-right ul li a:hover {
   border-top: 1px solid var(--color-border);
   padding-top: 20px;
   margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.modal-footer-left {
+  display: flex;
+  gap: 12px;
+  flex: 1;
 }
 
 .modal-form {
@@ -1607,5 +1614,31 @@ header .header-right ul li a:hover {
 
   .checkbox-grid {
     grid-template-columns: 1fr;
+  }
+
+  .modal-footer {
+    padding: 16px 20px 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .modal-btn-group {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .modal-footer-left {
+    width: 100%;
+    justify-content: center;
+    gap: 8px;
+    flex: none;
+  }
+
+  .contact-btn {
+    min-width: auto;
+    flex: 1;
+    font-size: 13px;
+    padding: 8px 10px;
   }
 }

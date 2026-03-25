@@ -231,7 +231,8 @@ export default function About() {
             <section style={{ width: "100%", padding: "56px 5%", background: "var(--color-white)" }}>
                 <div style={{ maxWidth: "1100px", margin: "0 auto", display: "flex", flexDirection: "column", gap: "28px", alignItems: "center", textAlign: "center" }}>
                     <h2 style={{ fontSize: "clamp(26px, 3vw, 40px)", fontWeight: 600, color: "var(--color-text-primary)" }}>
-                        What makes a <span style={{ color: "var(--color-accent)" }}>good website?</span>
+                        The <span style={{ color: "var(--color-accent)" }}>3 simple steps</span> to website success
+                        {/* The <span style={{ color: "var(--color-accent)" }}>3 simple steps</span> to website success */}
                     </h2>
                     <p style={{ fontSize: "17px", color: "var(--color-text-body)", lineHeight: 1.8, maxWidth: "780px" }}>
                         Your website is your shop window. It needs to be visually appealing to catch the customer's eye and professionally showcase your products and services. Above all else, your website must include quality written and visual content that gives the customer the information they want at a glance. Lastly, you need a way for them to get in touch or buy your products directly. That's it — that's all your site needs to do.
