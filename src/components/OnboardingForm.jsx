@@ -2,16 +2,12 @@ import React, { useState } from 'react';
 import phoneCodes from '../data/phoneCode.json';
 
 // ─── CONFIG ────────────────────────────────────────────────────────────────────
-const CLOUDINARY_CLOUD_NAME = 'do81m3zqi';       // e.g. 'dxyz123abc'
-const CLOUDINARY_UPLOAD_PRESET = 'TooEasyWebsite'; // unsigned preset name
+const CLOUDINARY_CLOUD_NAME = 'do81m3zqi';
+const CLOUDINARY_UPLOAD_PRESET = 'TooEasyWebsite';
 
 const FORMSUBMIT_EMAILS = ['karlrdyble@gmail.com', 'akeimsuth@gmail.com', 'taralonyt@gmail.com'];
 // ───────────────────────────────────────────────────────────────────────────────
 
-/**
- * Uploads a File object to Cloudinary and returns the secure URL string.
- * Throws if the upload fails.
- */
 const uploadToCloudinary = async (file) => {
     const data = new FormData();
     data.append('file', file);
@@ -35,8 +31,10 @@ const OnboardingForm = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [uploadingFields, setUploadingFields] = useState({}); // tracks per-field upload state
+    const [uploadingFields, setUploadingFields] = useState({});
     const [errors, setErrors] = useState({});
+
+    const TOTAL_STEPS = 10;
 
     const emptyForm = {
         firstName: "", lastName: "", email: "", phoneCode: "+1", phone: "",
@@ -60,17 +58,15 @@ const OnboardingForm = () => {
 
     const [formData, setFormData] = useState({ ...emptyForm });
 
-    // ── Generic text/radio/select change ──────────────────────────────────────
     const handleChange = (e) => {
         const { name, value, type } = e.target;
-        if (type === 'file') return; // handled by handleFileChange
-        if (type === 'checkbox') return; // handled by handleCheckboxGroup / inline
+        if (type === 'file') return;
+        if (type === 'checkbox') return;
 
         setFormData(prev => ({ ...prev, [name]: value }));
         if (errors[name]) setErrors(prev => ({ ...prev, [name]: null }));
     };
 
-    // ── File change: upload to Cloudinary, store URL ──────────────────────────
     const handleFileChange = async (e) => {
         const { name, files } = e.target;
         const file = files?.[0];
@@ -89,7 +85,6 @@ const OnboardingForm = () => {
         }
     };
 
-    // ── Checkbox groups ────────────────────────────────────────────────────────
     const handleCheckboxGroup = (groupName, value) => {
         setFormData(prev => {
             const arr = prev[groupName] || [];
@@ -102,7 +97,6 @@ const OnboardingForm = () => {
         });
     };
 
-    // ── Validation ─────────────────────────────────────────────────────────────
     const validateStep = (step) => {
         const newErrors = {};
         if (step === 1) {
@@ -146,10 +140,9 @@ const OnboardingForm = () => {
 
     const handleBack = () => { setCurrentStep(prev => prev - 1); window.scrollTo(0, 0); };
 
-    // ── Submit: send via FormSubmit ────────────────────────────────────────────
+    // ── Submit: only called from step 10 button ───────────────────────────────
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!validateStep(currentStep)) return;
+        e.preventDefault(); // safety net — actual submission is via button onClick
 
         if (Object.values(uploadingFields).some(Boolean)) {
             alert('Please wait — a file is still uploading.');
@@ -158,7 +151,6 @@ const OnboardingForm = () => {
 
         setIsSubmitting(true);
         try {
-            // Flatten everything to strings for FormSubmit
             const payload = {};
             Object.entries(formData).forEach(([key, val]) => {
                 if (Array.isArray(val)) {
@@ -170,10 +162,9 @@ const OnboardingForm = () => {
                 }
             });
 
-            // FormSubmit special fields
             payload._subject = `New Project Onboarding — ${payload.businessName}`;
-            payload._captcha = 'false';   // disable captcha (optional)
-            payload._template = 'table';  // nicely formatted email
+            payload._captcha = 'false';
+            payload._template = 'table';
 
             const results = await Promise.all(
                 FORMSUBMIT_EMAILS.map(email =>
@@ -219,7 +210,7 @@ const OnboardingForm = () => {
     // ── Step dots ──────────────────────────────────────────────────────────────
     const renderStepNumbers = () => (
         <div className="step-indicator">
-            {Array.from({ length: 9 }, (_, i) => i + 1).map(i => (
+            {Array.from({ length: TOTAL_STEPS }, (_, i) => i + 1).map(i => (
                 <div
                     key={i}
                     className={`step-dot ${i === currentStep ? 'active' : ''} ${i < currentStep ? 'done' : ''}`}
@@ -232,7 +223,7 @@ const OnboardingForm = () => {
     // ── File upload helper UI ──────────────────────────────────────────────────
     const FileUploadField = ({ name, accept, label }) => {
         const isUploading = !!uploadingFields[name];
-        const url = formData[name]; // null or a Cloudinary URL string
+        const url = formData[name];
 
         return (
             <div className="file-upload-area" style={{ position: 'relative' }}>
@@ -262,10 +253,14 @@ const OnboardingForm = () => {
 
     // ── Render ─────────────────────────────────────────────────────────────────
     return (
-        <form className="modal-box modal-box-large" style={{ margin: '0 auto', overflow: 'visible' }} onSubmit={handleSubmit}>
+        <form
+            className="modal-box modal-box-large"
+            style={{ margin: '0 auto', overflow: 'visible' }}
+            onSubmit={e => e.preventDefault()} /* Prevent any accidental form submission */
+        >
             <div className="modal-header">
                 <h3 className="modal-title">Project Onboarding</h3>
-                <p className="modal-subtitle">Step {currentStep} of 9 — Leave blank if unsure</p>
+                <p className="modal-subtitle">Step {currentStep} of {TOTAL_STEPS} — Leave blank if unsure</p>
                 {renderStepNumbers()}
             </div>
 
@@ -586,33 +581,96 @@ const OnboardingForm = () => {
                         <h4 className="step-title">Section 9: Additional Info</h4>
                         <div className="form-group">
                             <label>Anything else for the team?</label>
-                            <textarea name="additionalNotes" value={formData.additionalNotes} onChange={handleChange} style={{ minHeight: '180px' }}></textarea>
+                            <textarea
+                                name="additionalNotes"
+                                value={formData.additionalNotes}
+                                onChange={handleChange}
+                                placeholder="Share any extra details, special requests, or questions you have for our team. The more you tell us, the better we can tailor your website to your needs."
+                                style={{ minHeight: '180px' }}
+                            ></textarea>
                         </div>
                     </div>
                 )}
+
+                {/* ── STEP 10 — Submit ── */}
+                {currentStep === 10 && (
+                    <div className="form-step" style={{ textAlign: 'center', padding: '20px 0 10px' }}>
+                        <div style={{ fontSize: '52px', marginBottom: '16px' }}>🚀</div>
+                        <h4 className="step-title" style={{ marginBottom: '12px' }}>You're All Set!</h4>
+                        <p style={{ color: 'var(--color-text-secondary, #666)', fontSize: '15px', maxWidth: '480px', margin: '0 auto 20px', lineHeight: '1.6' }}>
+                            Thanks for filling in your project details. Once you hit <strong>Submit</strong>, our team will review everything and reach out to you shortly to get your project rolling.
+                        </p>
+                        <div style={{
+                            background: 'var(--color-bg-subtle, #f7f8fa)',
+                            border: '1px solid var(--color-border, #e5e7eb)',
+                            borderRadius: '10px',
+                            padding: '18px 24px',
+                            maxWidth: '420px',
+                            margin: '0 auto',
+                            textAlign: 'left',
+                            fontSize: '14px',
+                            color: 'var(--color-text-secondary, #555)',
+                            lineHeight: '1.7'
+                        }}>
+                            <p style={{ margin: '0 0 8px', fontWeight: '600', color: 'var(--color-text, #222)' }}>What happens next?</p>
+                            <p style={{ margin: '0 0 6px' }}>📋 &nbsp;We review your submitted details</p>
+                            <p style={{ margin: '0 0 6px' }}>📞 &nbsp;Our team contacts you within 1–2 business days</p>
+                            <p style={{ margin: '0' }}>🎨 &nbsp;We start planning your perfect website</p>
+                        </div>
+                        {Object.values(uploadingFields).some(Boolean) && (
+                            <p style={{ color: '#e05252', marginTop: '16px', fontSize: '13px' }}>
+                                ⏳ Please wait — a file is still uploading before you submit.
+                            </p>
+                        )}
+                    </div>
+                )}
+
             </div>
 
             {/* ── FOOTER ── */}
             <div className="modal-footer">
                 <div style={{ display: 'flex', gap: '12px', flex: 1 }}>
                     {currentStep > 1 && (
-                        <button type="button" className="contact-btn contact-btn-secondary" onClick={handleBack} disabled={isSubmitting} style={{ minWidth: '100px' }}>
+                        <button
+                            type="button"
+                            className="contact-btn contact-btn-secondary"
+                            onClick={handleBack}
+                            disabled={isSubmitting}
+                            style={{ minWidth: '100px' }}
+                        >
                             Back
                         </button>
                     )}
                     {currentStep < 9 && (
-                        <button type="button" className="contact-btn contact-btn-secondary" onClick={handleSkip} disabled={isSubmitting} style={{ minWidth: '100px' }}>
+                        <button
+                            type="button"
+                            className="contact-btn contact-btn-secondary"
+                            onClick={handleSkip}
+                            disabled={isSubmitting}
+                            style={{ minWidth: '100px' }}
+                        >
                             Skip to Last
                         </button>
                     )}
                 </div>
 
-                {currentStep < 9 ? (
-                    <button type="button" className="contact-btn contact-btn-primary" onClick={handleNext} style={{ minWidth: '160px' }}>
+                {currentStep < 10 ? (
+                    <button
+                        type="button"
+                        className="contact-btn contact-btn-primary"
+                        onClick={handleNext}
+                        style={{ minWidth: '160px' }}
+                    >
                         Next Step
                     </button>
                 ) : (
-                    <button type="submit" className="contact-btn contact-btn-primary" disabled={isSubmitting || Object.values(uploadingFields).some(Boolean)} style={{ minWidth: '160px' }}>
+                    <button
+                        type="button"
+                        className="contact-btn contact-btn-primary"
+                        onClick={handleSubmit}
+                        disabled={isSubmitting || Object.values(uploadingFields).some(Boolean)}
+                        style={{ minWidth: '160px' }}
+                    >
                         {isSubmitting ? 'Submitting…' : 'Submit My Details'}
                     </button>
                 )}
