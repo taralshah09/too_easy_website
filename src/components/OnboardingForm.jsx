@@ -300,7 +300,7 @@ const OnboardingForm = () => {
                                         name="phoneCode"
                                         value={formData.phoneCode}
                                         onChange={handleChange}
-                                        style={{ width: '130px', padding: '11px 12px', border: '1.5px solid var(--color-border)', borderRadius: '10px', background: 'var(--color-bg-light)', fontFamily: 'inherit', fontSize: '14px', color: 'var(--color-text-primary)', outline: 'none', cursor: 'pointer' }}
+                                        className="country-code-select"
                                     >
                                         {phoneCodes.data.map((country, idx) => (
                                             <option key={`${country.code}-${idx}`} value={country.callingCode}>

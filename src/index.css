@@ -1415,6 +1415,41 @@ header .header-right ul li a:hover {
   min-height: 90px;
 }
 
+.country-code-select {
+  width: 130px;
+  padding: 11px 12px;
+  border: 1.5px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-bg-light);
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--color-text-primary);
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.country-code-select:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(244, 180, 0, 0.15);
+  background: var(--color-white);
+}
+
+@media (max-width: 320px) {
+  .country-code-select {
+    width: 110px;
+    padding: 11px 12px;
+    border: 1.5px solid var(--color-border);
+    border-radius: 10px;
+    background: var(--color-bg-light);
+    font-family: inherit;
+    font-size: 10px;
+    color: var(--color-text-primary);
+    outline: none;
+    cursor: pointer;
+  }
+}
+
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
