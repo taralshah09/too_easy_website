@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const FORMSUBMIT_EMAILS = ['akeimsuth@gmail.com', 'taralonyt@gmail.com'];
+const FORMSUBMIT_EMAILS = ['karlrdyble@gmail.com', 'akeimsuth@gmail.com', 'taralonyt@gmail.com'];
 
 const GeneralEnquiryModal = ({ onClose }) => {
     const [formData, setFormData] = useState({ name: '', email: '', message: '' });

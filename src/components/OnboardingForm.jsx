@@ -5,7 +5,7 @@ import phoneCodes from '../data/phoneCode.json';
 const CLOUDINARY_CLOUD_NAME = 'do81m3zqi';       // e.g. 'dxyz123abc'
 const CLOUDINARY_UPLOAD_PRESET = 'TooEasyWebsite'; // unsigned preset name
 
-const FORMSUBMIT_EMAILS = ['akeimsuth@gmail.com', 'taralonyt@gmail.com'];
+const FORMSUBMIT_EMAILS = ['karlrdyble@gmail.com', 'akeimsuth@gmail.com', 'taralonyt@gmail.com'];
 // ───────────────────────────────────────────────────────────────────────────────
 
 /**
