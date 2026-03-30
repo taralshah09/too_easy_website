@@ -1,7 +1,13 @@
-import { Link } from "react-router-dom"
+import React, { useState } from "react"
 import heroVector from "../assets/hero-vec-with-shadow-new.png"
+import GetFreeDesignsModal from "./GetFreeDesignsModal"
 
 export default function Hero() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
+
     return (
         <section className="hero">
             <div className="hero-inner">
@@ -15,7 +21,9 @@ export default function Hero() {
                     <p className="hero-body">
                         Tell us about your small business, send us your logo and any images you want to include, tell us what kind of website you'd like, and we'll bring your ideas and your business to life for <em>free!</em>
                     </p>
-                    <Link to="/contact" className="hero-cta">GET FREE DESIGNS</Link>
+                    <button onClick={openModal} className="hero-cta" style={{ border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}>
+                        GET FREE DESIGNS
+                    </button>
                 </div>
 
                 <div className="hero-right">
@@ -26,6 +34,8 @@ export default function Hero() {
                     />
                 </div>
             </div>
+
+            {isModalOpen && <GetFreeDesignsModal onClose={closeModal} />}
         </section>
     )
 }
