@@ -329,7 +329,7 @@ const OnboardingForm = () => {
                         </div>
                         <div className="form-row">
                             <div className="form-group">
-                                <label>Locations covered by the business (if applicable)</label>
+                                <label>Locations covered by the business</label>
                                 <input type="text" name="locationsCovered" value={formData.locationsCovered} onChange={handleChange} placeholder="Optional" />
                             </div>
                             <div className="form-group">
@@ -412,16 +412,16 @@ const OnboardingForm = () => {
                         {formData.wantLogoDesign === 'yes' && (
                             <div className="sub-fields" style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
                                 <div className="form-group">
-                                    <label>Logo Vision/Description</label>
+                                    <label>Describe your logo</label>
                                     <textarea name="logoDescription" value={formData.logoDescription} onChange={handleChange}></textarea>
                                 </div>
                                 <div className="form-group">
-                                    <label>Color Preferences</label>
+                                    <label>What colours do you want on your logo?</label>
                                     <input type="text" name="logoColors" value={formData.logoColors} onChange={handleChange} placeholder="e.g. Navy Blue, Golden" />
                                 </div>
                                 <label className="checkbox-item">
                                     <input type="checkbox" name="leaveToDesigner" checked={formData.leaveToDesigner} onChange={e => setFormData(p => ({ ...p, leaveToDesigner: e.target.checked }))} />
-                                    <span>Allow designer full creative freedom</span>
+                                    <span>Want us to design the logo</span>
                                 </label>
                             </div>
                         )}
@@ -433,7 +433,7 @@ const OnboardingForm = () => {
                     <div className="form-step">
                         <h4 className="step-title">Section 4: Design Preferences</h4>
                         <div className="form-group">
-                            <label>Inspiration Links</label>
+                            <label>Provide one or two examples of websites that you like</label>
                             <input type="url" name="exampleWebsite1" value={formData.exampleWebsite1} onChange={handleChange} placeholder="Example Site 1" style={{ marginBottom: '10px' }} />
                             <input type="url" name="exampleWebsite2" value={formData.exampleWebsite2} onChange={handleChange} placeholder="Example Site 2" />
                         </div>
@@ -449,7 +449,7 @@ const OnboardingForm = () => {
                             </div>
                         </div>
                         <div className="form-group">
-                            <label>Any other style comments?</label>
+                            <label>Add your own words</label>
                             <input type="text" name="customStyle" value={formData.customStyle} onChange={handleChange} />
                         </div>
                     </div>
@@ -476,14 +476,14 @@ const OnboardingForm = () => {
                         </div>
                         <div className="radio-row">
                             <div className="form-group">
-                                <label>Needs Payments?</label>
+                                <label>Do you need online payments, bookings or a contact form?</label>
                                 <div className="radio-row">
                                     <label className="radio-item"><input type="radio" name="needsPayments" value="yes" checked={formData.needsPayments === 'yes'} onChange={handleChange} /><span>Yes</span></label>
                                     <label className="radio-item"><input type="radio" name="needsPayments" value="no" checked={formData.needsPayments === 'no'} onChange={handleChange} /><span>No</span></label>
                                 </div>
                             </div>
                             <div className="form-group">
-                                <label>Needs Blog?</label>
+                                <label>Do you need a blog?</label>
                                 <div className="radio-row">
                                     <label className="radio-item"><input type="radio" name="needsBlog" value="yes" checked={formData.needsBlog === 'yes'} onChange={handleChange} /><span>Yes</span></label>
                                     <label className="radio-item"><input type="radio" name="needsBlog" value="no" checked={formData.needsBlog === 'no'} onChange={handleChange} /><span>No</span></label>
@@ -510,7 +510,7 @@ const OnboardingForm = () => {
                             </div>
                         )}
                         <div className="form-group">
-                            <label>Want us to write content?</label>
+                            <label>Want us to write the content?</label>
                             <div className="radio-row">
                                 <label className="radio-item"><input type="radio" name="wantContentWriting" value="yes" checked={formData.wantContentWriting === 'yes'} onChange={handleChange} /><span>Yes</span></label>
                                 <label className="radio-item"><input type="radio" name="wantContentWriting" value="no" checked={formData.wantContentWriting === 'no'} onChange={handleChange} /><span>No</span></label>
@@ -520,7 +520,7 @@ const OnboardingForm = () => {
                             <textarea name="contentInstructions" value={formData.contentInstructions} onChange={handleChange} placeholder="Instructions for the copywriter"></textarea>
                         )}
                         <div className="form-group mt-12">
-                            <label>Do you have business images?</label>
+                            <label>Do you have any photos or images you want to use?</label>
                             <div className="radio-row">
                                 <label className="radio-item"><input type="radio" name="hasImages" value="yes" checked={formData.hasImages === 'yes'} onChange={handleChange} /><span>Yes</span></label>
                                 <label className="radio-item"><input type="radio" name="hasImages" value="no" checked={formData.hasImages === 'no'} onChange={handleChange} /><span>No</span></label>
@@ -539,7 +539,7 @@ const OnboardingForm = () => {
                     <div className="form-step">
                         <h4 className="step-title">Section 7: Site Management</h4>
                         <div className="form-group">
-                            <label>Will you manage the site?</label>
+                            <label>Will you manage the site once it's live?</label>
                             <div className="radio-row">
                                 <label className="radio-item"><input type="radio" name="userManagesSite" value="yes" checked={formData.userManagesSite === 'yes'} onChange={handleChange} /><span>Yes</span></label>
                                 <label className="radio-item"><input type="radio" name="userManagesSite" value="no" checked={formData.userManagesSite === 'no'} onChange={handleChange} /><span>No</span></label>
@@ -553,7 +553,7 @@ const OnboardingForm = () => {
                             </div>
                         </div>
                         <div className="form-group">
-                            <label>Needs SEO services?</label>
+                            <label>Do you want us to manage SEO services?</label>
                             <div className="radio-row">
                                 <label className="radio-item"><input type="radio" name="needsSEO" value="yes" checked={formData.needsSEO === 'yes'} onChange={handleChange} /><span>Yes</span></label>
                                 <label className="radio-item"><input type="radio" name="needsSEO" value="no" checked={formData.needsSEO === 'no'} onChange={handleChange} /><span>No</span></label>
@@ -567,11 +567,11 @@ const OnboardingForm = () => {
                     <div className="form-step">
                         <h4 className="step-title">Section 8: Budget & Timeline</h4>
                         <div className="form-group">
-                            <label>Estimated Budget</label>
+                            <label>What is your approximate budget?</label>
                             <input type="text" name="budget" value={formData.budget} onChange={handleChange} placeholder="e.g. $1000" />
                         </div>
                         <div className="form-group">
-                            <label>Expected Launch Date</label>
+                            <label>When do you need the site to go live?</label>
                             <input type="date" name="launchDate" value={formData.launchDate} onChange={handleChange} min={new Date().toISOString().split('T')[0]} style={{ padding: '10px' }} />
                         </div>
                     </div>
@@ -582,7 +582,7 @@ const OnboardingForm = () => {
                     <div className="form-step">
                         <h4 className="step-title">Section 9: Additional Info</h4>
                         <div className="form-group">
-                            <label>Anything else for the team?</label>
+                            <label>Is there any other information you want to give us?</label>
                             <textarea
                                 name="additionalNotes"
                                 value={formData.additionalNotes}
