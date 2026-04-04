@@ -61,11 +61,11 @@ export default function ContactPage() {
                         </p>
 
                         {/* Stats row */}
-                        <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', marginTop: '8px', flexWrap: 'wrap' }}>
+                        {/*<div style={{ display: 'flex', gap: '12px', justifyContent: 'center', marginTop: '8px', flexWrap: 'wrap' }}>
                             <StatBadge value="48h" label="Avg. Response" />
                             <StatBadge value="100+" label="Sites Delivered" />
                             <StatBadge value="Free" label="Design Preview" />
-                        </div>
+                        </div>*/}
                     </div>
 
                     {/* ── Cards ── */}
@@ -145,12 +145,13 @@ export default function ContactPage() {
                                 onClick={openDesigns}
                                 style={{ width: '100%', marginTop: '4px' }}
                             >
-                                Start My Free Design →
+                                GET FREE DESIGNS →
                             </button>
                         </div>
                     </div>
 
                     {/* ── Bottom reassurance strip ── */}
+                    {/*
                     <div style={{
                         display: 'flex', gap: '24px', flexWrap: 'wrap', justifyContent: 'center',
                         paddingTop: '8px',
@@ -169,7 +170,7 @@ export default function ContactPage() {
                             </div>
                         ))}
                     </div>
-
+                    */}
                 </div>
             </section>
 
