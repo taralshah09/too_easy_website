@@ -313,12 +313,12 @@ const OnboardingForm = () => {
                             </div>
                         </div>
                         <div className="form-group">
-                            <label>Business Name <span className="required">*</span></label>
+                            <label>Business Name (that will appear on your website)<span className="required">*</span></label>
                             <input type="text" name="businessName" value={formData.businessName} onChange={handleChange} />
                             {errors.businessName && <span className="required" style={{ fontSize: '12px' }}>{errors.businessName}</span>}
                         </div>
                         <div className="form-group">
-                            <label>Business Type <span className="required">*</span></label>
+                            <label>Business Type/Industry <span className="required">*</span></label>
                             <input type="text" name="businessType" value={formData.businessType} onChange={handleChange} placeholder="e.g. Retail, Service, Food" />
                             {errors.businessType && <span className="required" style={{ fontSize: '12px' }}>{errors.businessType}</span>}
                         </div>
@@ -329,11 +329,11 @@ const OnboardingForm = () => {
                         </div>
                         <div className="form-row">
                             <div className="form-group">
-                                <label>Locations Covered</label>
+                                <label>Locations covered by the business (if applicable)</label>
                                 <input type="text" name="locationsCovered" value={formData.locationsCovered} onChange={handleChange} placeholder="Optional" />
                             </div>
                             <div className="form-group">
-                                <label>Current Website</label>
+                                <label>Current Website, if you have one:</label>
                                 <input type="url" name="currentWebsite" value={formData.currentWebsite} onChange={handleChange} placeholder="https:// Optional" />
                             </div>
                         </div>
@@ -343,41 +343,43 @@ const OnboardingForm = () => {
                 {/* ── STEP 2 ── */}
                 {currentStep === 2 && (
                     <div className="form-step">
+                        <p className="modal-subtitle">Provide as much of the following information as possible. If you don't have an answer or just
+                        want us to deal with it for you, leave the question blank</p>
                         <h4 className="step-title">Section 2: About Your Business</h4>
                         <div className="form-group">
-                            <label>Main Purpose of the Website (Select multiple)</label>
+                            <label>What is the main purpose of your website (Select multiple)</label>
                             <div className="checkbox-grid">
-                                {['Generate enquiries or leads', 'Drive people to attend business', 'Sell products online', 'Maintain online presence', 'Other'].map(opt => (
+                                {['Generate enquiries or leads for services', 'Drive people to attend my business', 'Sell physical or digital products online', 'Maintain an online presence', 'Something else'].map(opt => (
                                     <label key={opt} className="checkbox-item">
                                         <input type="checkbox" checked={formData.websitePurpose.includes(opt)} onChange={() => handleCheckboxGroup('websitePurpose', opt)} />
                                         <span>{opt}</span>
                                     </label>
                                 ))}
                             </div>
-                            {formData.websitePurpose.includes('Other') && (
+                            {formData.websitePurpose.includes('Something else') && (
                                 <input type="text" name="websitePurposeOther" value={formData.websitePurposeOther} onChange={handleChange} placeholder="Specify other purpose" className="mt-8" />
                             )}
                         </div>
                         <div className="form-group">
-                            <label>Target Audience</label>
+                            <label>Who are your customers/target market?</label>
                             <textarea name="targetAudience" value={formData.targetAudience} onChange={handleChange} placeholder="Describe your ideal customers"></textarea>
                         </div>
                         <div className="form-group">
-                            <label>Key User Actions</label>
+                            <label>What do you want visitors to do when they land on your site?</label>
                             <div className="checkbox-grid">
-                                {['Call', 'Email', 'Browse products', 'Buy/pay online', 'Login', 'Leave reviews', 'Other'].map(opt => (
+                                {['Call you', 'Contact you via email', 'Browse your products', 'Buy/pay online', 'Log into an account', 'Leave comments or reviews', 'Something else'].map(opt => (
                                     <label key={opt} className="checkbox-item">
                                         <input type="checkbox" checked={formData.userActions.includes(opt)} onChange={() => handleCheckboxGroup('userActions', opt)} />
                                         <span>{opt}</span>
                                     </label>
                                 ))}
                             </div>
-                            {formData.userActions.includes('Other') && (
+                            {formData.userActions.includes('Something else') && (
                                 <input type="text" name="userActionsOther" value={formData.userActionsOther} onChange={handleChange} placeholder="Specify other action" className="mt-8" />
                             )}
                         </div>
                         <div className="form-group">
-                            <label>Unique Selling Points (USPs)</label>
+                            <label>What makes you different from your competitors?</label>
                             <textarea name="uniqueSellingPoints" value={formData.uniqueSellingPoints} onChange={handleChange} placeholder="What makes your business better?"></textarea>
                         </div>
                     </div>
