@@ -37,7 +37,7 @@ const OnboardingForm = () => {
     const TOTAL_STEPS = 10;
 
     const emptyForm = {
-        firstName: "", lastName: "", email: "", phoneCode: "+1", phone: "",
+        firstName: "", lastName: "", email: "", phone: "",
         businessName: "", businessType: "", businessAddress: "",
         locationsCovered: "", currentWebsite: "",
         websitePurpose: [], websitePurposeOther: "",
@@ -291,7 +291,7 @@ const OnboardingForm = () => {
                             <div className="form-group">
                                 <label>Phone <span className="required">*</span></label>
                                 <div style={{ display: 'flex', gap: '8px' }}>
-                                    <select
+                                    {/*<select
                                         name="phoneCode"
                                         value={formData.phoneCode}
                                         onChange={handleChange}
@@ -302,7 +302,7 @@ const OnboardingForm = () => {
                                                 {country.name} ({country.callingCode})
                                             </option>
                                         ))}
-                                    </select>
+                                    </select>*/}
                                     <input
                                         type="tel" name="phone" value={formData.phone} onChange={handleChange}
                                         placeholder="10-digit number"
